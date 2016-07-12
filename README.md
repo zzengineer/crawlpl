@@ -5,9 +5,9 @@ compact crawling tools written in perl
 ### NAME
 rexcrawl -- crawler with regex patterns for content and crawl-urls
 
-csscrawl -- crawler with css selector patterns for content and crwal-urls (broken) 
+csscrawl -- crawler with css selector for content and crwal-urls (broken) 
 
-mixcrawl -- crawler with css selector patterns for content and regex for crawl-urls
+mixcrawl -- crawler with css selector for content and regex for crawl-urls
 
 ### SYNOPSIS
 
