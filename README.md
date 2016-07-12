@@ -27,6 +27,9 @@ to be continued
 * crawl searchresult headers
 rexcrawl http://www.google.com/search?q=test  '<h3.*<\/h3>'
 
+* crawl with a http proxy
+HTTP_PROXY=127.0.0.1:8080 rexcrawl http://www.google.com/search?q=test  '<h3.*<\/h3>'
+
 * crawl searchresult headers and descend to subpages
 rexcrawl http://www.google.com/search?q=test  '<h3.*<\/h3>'  'http:\/\/.*start[^"]+'
 
@@ -35,6 +38,12 @@ csscrawl ---
 * crawl searchresult headers
 mixcrawl http://www.google.com/search?q=test  'h3.r'
 
+* crawl with a http proxy
+HTTP_PROXY=127.0.0.1:8080 mixcrawl http://www.google.com/search?q=test  'h3.r'
+
 * crawl searchresult headers and descend to subpages
 mixcrawl http://www.google.com/search?q=test  'h3.r'  'http:\/\/.*start[^"]+'
+
+
+
 ```
