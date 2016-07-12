@@ -1,0 +1,74 @@
+#!/usr/bin/perl
+#
+# cpan install LWP::Simple
+# cpan install Mojo::DOM
+
+use strict;
+use warnings;
+
+use LWP::Simple;
+use LWP::UserAgent;
+use Mojo::DOM;
+use HTTP::Request;
+use HTTP::Response;
+
+my @urls;
+my %visited;
+my $browser;
+
+my $SLEEP = $ENV{REQUEST_PAUSE} // 1;
+my $TIMEOUT = $ENV{REQUEST_TIMEOUT} // 15;
+
+my $UAMOZ = 'Mozilla/5.0 (Windows NT 6.1; WOW64)';
+my $UAENG = 'AppleWebKit/537.36 (KHTML, like Gecko)';
+my $UATAG = 'Chrome/46.0.2490.86 Safari/537.36';
+
+$browser = LWP::UserAgent->new(join(' ', $UAMOZ, $UAENG, $UATAG));
+$browser->proxy( ['http'], $ENV{HTTP_PROXY} ) if exists $ENV{HTTP_PROXY};
+$browser->timeout($TIMEOUT);
+
+die("usage: crawler url extract-selector [crawl-selector]") if(scalar @ARGV < 2);
+my ($url, $crawl, $extract) = @ARGV;
+push(@urls, $url);
+
+foreach my $url (@urls) {
+
+     next if exists $visited{$url};
+
+     $visited{$url} = 1;
+
+     my $request = HTTP::Request->new(GET => $url);
+     my $response = $browser->request($request);
+
+     if ($response->is_error()) {
+         printf STDERR "crawler: %s for %s\n", $response->status_line, $url;
+         next;
+     }
+
+
+     my $dom = Mojo::DOM->new($response->content());
+
+     for my $node( $dom->find($crawl)->each) {
+        if($crawl =~ /\]$/) {
+          push @urls, $node->text;
+        } else {
+          push @urls, $node->to_string;
+        }
+
+     }
+
+     for my $node( $dom->find($extract)->each) {
+       print $node->text. "\n"; next;
+        if($crawl =~ /\]$/) {
+          #print "matches\n";
+          print $node->text. "\n";
+        } else {
+          #print "does not match\n";
+          print $node->to_string. "\n";
+        }
+
+     }
+
+     sleep $SLEEP;
+}
+
