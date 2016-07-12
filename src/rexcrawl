@@ -26,7 +26,7 @@ $browser = LWP::UserAgent->new(join(' ', $UAMOZ, $UAENG, $UATAG));
 $browser->proxy( ['http'], $ENV{HTTP_PROXY} ) if exists $ENV{HTTP_PROXY};
 $browser->timeout($TIMEOUT);
 
-die("usage: rexcrawl url extract-pattern [crawl-pattern]") if(scalar @ARGV != 2);
+die("usage: rexcrawl url extract-pattern [crawl-pattern]") if(scalar @ARGV < 2);
 my ($url, $extract, $crawl) = @ARGV;
 push(@urls, $url);
 
