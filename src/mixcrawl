@@ -19,7 +19,7 @@ my $browser;
 my $SLEEP = $ENV{REQUEST_PAUSE} // 1;
 my $TIMEOUT = $ENV{REQUEST_TIMEOUT} // 15;
 
-die("usage: mixcrawler url extract-selector [crawl-regex]") if(scalar @ARGV != 3);
+die("usage: mixcrawler url extract-selector [crawl-regex]") if(scalar @ARGV < 2);
 $sleep = $ENV{REQUEST_INTERVAL} ) if exists $ENV{REQUEST_INTERVAL};
 
 
